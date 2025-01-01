@@ -19,13 +19,13 @@ public class TileManager {
         tile = new Tile[10];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
 
-        loadMap();
+        loadMap("/maps/allGrass.txt");
         getTileImage();
     }
 
-    public void loadMap() {
+    public void loadMap(String map) {
         try {
-            InputStream stream = getClass().getResourceAsStream("/maps/allGrass.txt");
+            InputStream stream = getClass().getResourceAsStream(map);
             BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 
             int col = 0;
