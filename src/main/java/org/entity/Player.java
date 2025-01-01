@@ -23,7 +23,7 @@ public class Player extends Entity {
         x = 100;
         y = 100;
         speed = 4;
-        direction = "up";
+        direction = "down";
     }
 
     public void getPlayerImage() {
@@ -33,30 +33,48 @@ public class Player extends Entity {
             down1 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_down_1.png"));
             down2 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_down_2.png"));
             left1 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/sprites/player/walking/boy_right_2.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void update() {
-        if (keyH.upPressed) {
-            direction = "up";
-            y -= speed;
-        }
-        else if (keyH.downPressed) {
-            direction = "down";
-            y += speed;
-        }
-        else if (keyH.leftPressed) {
-            direction = "left";
-            x -= speed;
-        }
-        else if (keyH.rightPressed) {
-            direction = "right";
-            x += speed;
+
+        // only move and update sprite when key is pressed
+        // probably will need to change it in the future
+        // animation should change without the need for keys pressed
+        if (keyH.rightPressed
+        || keyH.downPressed
+        || keyH.leftPressed
+        || keyH.upPressed) {
+
+            if (keyH.upPressed) {
+                direction = "up";
+                y -= speed;
+            } else if (keyH.downPressed) {
+                direction = "down";
+                y += speed;
+            } else if (keyH.leftPressed) {
+                direction = "left";
+                x -= speed;
+            } else if (keyH.rightPressed) {
+                direction = "right";
+                x += speed;
+            }
+
+            spriteCounter++;
+            if (spriteCounter > 12) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+
+                spriteCounter = 0;
+            }
         }
     }
 
@@ -66,10 +84,22 @@ public class Player extends Entity {
 
         BufferedImage image = null;
         switch (direction) {
-            case "up": image = up1; break;
-            case "down": image = down1; break;
-            case "left": image = left1; break;
-            case "right": image = right1; break;
+            case "up":
+                if (spriteNum == 1) image = up1;
+                if (spriteNum == 2) image = up2;
+                break;
+            case "down":
+                if (spriteNum == 1) image = down1;
+                if (spriteNum == 2) image = down2;
+                break;
+            case "left":
+                if (spriteNum == 1) image = left1;
+                if (spriteNum == 2) image = left2;
+                break;
+            case "right":
+                if (spriteNum == 1) image = right1;
+                if (spriteNum == 2) image = right2;
+                break;
         }
 
         g.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
