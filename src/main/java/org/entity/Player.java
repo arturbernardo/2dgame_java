@@ -4,7 +4,7 @@ import org.game.GamePanel;
 import org.game.KeyHandler;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
@@ -22,6 +22,12 @@ public class Player extends Entity {
         int tileOffset = gp.tileSize / 2;
         this.screenX = (gp.screenWidth / 2) - tileOffset;
         this.screenY = (gp.screenHeight / 2) - tileOffset;
+
+        // hit box
+        int hitArea = gp.tileSize - gp.tileSize/3;
+        int hitX = gp.tileSize/6;
+        int hitY = gp.tileSize/3;
+        solidArea = new Rectangle(hitX, hitY, hitArea, hitArea);
 
         setDefaultValues();
         getPlayerImage();
@@ -62,16 +68,34 @@ public class Player extends Entity {
 
             if (keyH.upPressed) {
                 direction = "up";
-                worldY -= speed;
             } else if (keyH.downPressed) {
                 direction = "down";
-                worldY += speed;
             } else if (keyH.leftPressed) {
                 direction = "left";
-                worldX -= speed;
+
             } else if (keyH.rightPressed) {
                 direction = "right";
-                worldX += speed;
+            }
+
+            collisionOn = false;
+            gp.collisionHandler.checkTile(this);
+
+            // bad code
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
             }
 
             spriteCounter++;

@@ -10,8 +10,8 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    int mapTileNum[][];
+    public Tile[] tile;
+    public int mapTileNum[][];
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -52,10 +52,10 @@ public class TileManager {
     public void getTileImage() {
         try {
             tile[0] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/grass00.png")));
-            tile[1] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/wall.png")));
-            tile[2] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/water00.png")));
+            tile[1] = new Tile(true, ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/wall.png")));
+            tile[2] = new Tile(true, ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/water00.png")));
             tile[3] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/earth.png")));
-            tile[4] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/tree.png")));
+            tile[4] = new Tile(true, ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/tree.png")));
             tile[5] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/road00.png")));
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,7 +13,7 @@ public class Tile {
         this.image = image;
     }
 
-    public Tile(BufferedImage image, boolean collision) {
+    public Tile(boolean collision, BufferedImage image) {
         this.image = image;
         this.collision = collision;
     }
