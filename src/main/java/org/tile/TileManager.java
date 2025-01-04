@@ -69,9 +69,24 @@ public class TileManager {
                 // (i * gp.tileSize) is to position on the map
                 // (- gp.player.worldX + gp.player.screenX) will subtract the excess and add it to the screen
                 // gp.player.screenX offset the player to the center
-                int x = (i * gp.tileSize) - gp.player.worldX + gp.player.screenX;
-                int y = (j * gp.tileSize) - gp.player.worldY + gp.player.screenY;
-                g.drawImage(tile[mapTileNum[i][j]].image, x, y, gp.tileSize, gp.tileSize, null);
+
+                int worldX = i * gp.tileSize;
+                int worldY = j * gp.tileSize;
+                int x = worldX - gp.player.worldX + gp.player.screenX;
+                int y = worldY - gp.player.worldY + gp.player.screenY;
+
+                // only draws whats inside the screen
+
+                int borderExtraTile = 1 * gp.tileSize;
+
+                if (worldX + borderExtraTile > gp.player.worldX - gp.player.screenX &&
+                    worldX - borderExtraTile < gp.player.worldX + gp.player.screenX &&
+                    worldY + borderExtraTile > gp.player.worldY - gp.player.screenY &&
+                    worldY - borderExtraTile < gp.player.worldY + gp.player.screenY) {
+
+                    g.drawImage(tile[mapTileNum[i][j]].image, x, y, gp.tileSize, gp.tileSize, null);
+                }
+
             }
         }
     }
