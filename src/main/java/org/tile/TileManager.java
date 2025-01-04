@@ -17,9 +17,9 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[10];
-        mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
-        loadMap("/maps/allGrass.txt");
+        loadMap("/maps/01.txt");
         getTileImage();
     }
 
@@ -54,15 +54,24 @@ public class TileManager {
             tile[0] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/grass00.png")));
             tile[1] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/wall.png")));
             tile[2] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/water00.png")));
+            tile[3] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/earth.png")));
+            tile[4] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/tree.png")));
+            tile[5] = new Tile(ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/road00.png")));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void draw(Graphics2D g) {
-        for (int i = 0; i < gp.maxScreenCol; i++) {
-            for (int j = 0; j < gp.maxScreenRow; j++) {
-                g.drawImage(tile[mapTileNum[i][j]].image, gp.tileSize*i, gp.tileSize*j, gp.tileSize, gp.tileSize, null);
+        for (int i = 0; i < gp.maxWorldCol; i++) {
+            for (int j = 0; j < gp.maxWorldRow; j++) {
+
+                // (i * gp.tileSize) is to position on the map
+                // (- gp.player.worldX + gp.player.screenX) will subtract the excess and add it to the screen
+                // gp.player.screenX offset the player to the center
+                int x = (i * gp.tileSize) - gp.player.worldX + gp.player.screenX;
+                int y = (j * gp.tileSize) - gp.player.worldY + gp.player.screenY;
+                g.drawImage(tile[mapTileNum[i][j]].image, x, y, gp.tileSize, gp.tileSize, null);
             }
         }
     }
